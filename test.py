@@ -1,42 +1,45 @@
 import machine
-
-
-try:
-    # ESP8266 board
-    import esp
-    boardName = "esp8266"
-except:
-    if ('rp2' in locals()):
-        # rpp board
-        boardName = "rp2"
-    else:
-        boardName = "unknown"
-
-if (boardName == "esp8266"):
-    # MOSI = const(13)
-    # MISO = const(12)
-    # SCLK = const(14)
-    CS = (0)    # 0, 2, (4, 5), 15, 16
-    DIO1 = (16)
-    BUSY = (15)
-    RESET = (2)
-elif (boardName == "rp2"):
-    # MOSI = const(7)
-    # MISO = const(4)
-    # SCLK = const(6)
-    CS = (5)
-    DIO1 = (10)
-    BUSY = (14)
-    RESET = (15)
-    # LED_PIN = const(25)
-    # led = machine.Pin(LED_PIN, machine.Pin.OUT)
-
-
-boardID = machine.unique_id()
-
-from sx1262 import SX1262
+from radio.sx1262 import SX1262
 import time
 import utime
+
+# try:
+#     # ESP8266 board
+#     import esp
+#     boardName = "esp8266"
+# except:
+#     if ('rp2' in locals()):
+#         # rpp board
+#         boardName = "rp2"
+#     else:
+#         boardName = "unknown"
+
+# if (boardName == "esp8266"):
+#     # MOSI = const(13)
+#     # MISO = const(12)
+#     # SCLK = const(14)
+#     CS = (0)    # 0, 2, (4, 5), 15, 16
+#     DIO1 = (16)
+#     BUSY = (15)
+#     RESET = (2)
+# elif (boardName == "rp2"):
+#     # MOSI = const(7)
+#     # MISO = const(4)
+#     # SCLK = const(6)
+#     CS = (5)
+#     DIO1 = (10)
+#     BUSY = (14)
+#     RESET = (15)
+#     # LED_PIN = const(25)
+#     # led = machine.Pin(LED_PIN, machine.Pin.OUT)
+
+CS = const(3)
+DIO1 = const(20)
+BUSY = const(2)
+RESET = const(15)
+boardID = machine.unique_id()
+
+
 
 ################################################################################
 

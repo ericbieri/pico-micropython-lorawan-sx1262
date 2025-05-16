@@ -20,7 +20,7 @@ from LoRaWAN.MHDR import MHDR
 # BUSY = const(14)
 # RESET = const(15)
 
-# RPP 2
+# RP Pico 2
 CS = const(3)
 DIO1 = const(20)
 BUSY = const(2)
