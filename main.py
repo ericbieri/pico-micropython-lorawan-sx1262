@@ -3,6 +3,11 @@ from machine import Pin
 from LoRaWANHandler import LoRaWANHandler
 from LoRaWANHandler import getBoardID
 from LoRaConfig import LoRaConfig
+import micropython
+
+import gc
+import os
+import machine
 
 def blink(duration=100):
     led.on
@@ -23,6 +28,9 @@ blink()
 # Connect to TTN 
 lh.otaa()
 blink()
+
+# Check the memory usage -> GC: total: 457216, used: 213136, free: 244080
+# micropython.mem_info()
 
 while(True):
     # count up to 99 and then reset
