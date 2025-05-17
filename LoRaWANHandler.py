@@ -583,7 +583,7 @@ class LoRaWANHandler:
         def ProcessMACCommands(CommandReqList):
             CommandAnsList = bytearray()
             idx = 0
-            print("\n\tProcessing MAC Commands")
+            print("\nProcessing MAC Commands")
 
             if ((CommandReqList == None) or (len(CommandReqList) == 0)):
                 print("Empty CommandReqList")

@@ -3,19 +3,16 @@ from radio.sx1262 import SX1262
 import time
 import utime
 
-# Pico 2 pins for Waveshare SX1262 LoRaWAN module
+# RP Pico 2 pins for Waveshare SX1262 LoRaWAN module
+CLK = 'GPIO10'
+MOSI = 'GPIO11'
+MISO = 'GPIO12'
 CS = const(3)
 DIO1 = const(20)
 BUSY = const(2)
 RESET = const(15)
 
-MOSI = '11'
-MISO = '12'
-SCLK = '10'
-
 boardID = machine.unique_id()
-
-
 
 ################################################################################
 
@@ -25,8 +22,8 @@ for i in boardID:
     print(hex(i), " ", end='')
 print(" ")
 
-print("Initializing SX1262 radio module")
-sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=SCLK,mosi=MOSI,miso=MISO)
+print("\nInitializing SX1262 radio module")
+sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=CLK,mosi=MOSI,miso=MISO)
 
 
 # LoRa

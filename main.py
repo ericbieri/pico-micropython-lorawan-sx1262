@@ -9,7 +9,7 @@ def blink(duration=100):
     sleep_ms(duration)
     led.off()
 
-print("LoRaWAN TTN Test")
+print("\n--- LoRaWAN TTN Test ---\n")
 
 getBoardID()
 
