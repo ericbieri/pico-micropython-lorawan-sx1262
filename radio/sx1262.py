@@ -17,7 +17,8 @@ class SX1262(SX126X):
     STATUS = ERROR
 
     def __init__(self, cs, irq, rst, gpio, clk='10', mosi='11', miso='12'):
-        print("SX1262 pins - cs:", cs, ",irq:", irq, ",rst:", rst, ",gpio:", gpio, ",clk: ", clk, ",mosi: ", mosi, ",miso: ", miso)
+        print("SX1262 pins - cs:" + str(cs) + ",irq:" + str(irq) + ",rst:" + str(rst) + ",gpio:" + str(gpio) + ",clk:" + str(clk) + ",mosi:" + str(mosi) + ",miso:" + str(miso))
+
         super().__init__(cs, irq, rst, gpio, clk, mosi, miso)
         self._callbackFunction = self._dummyFunction
 

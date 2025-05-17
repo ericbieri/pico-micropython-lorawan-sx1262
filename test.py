@@ -4,13 +4,13 @@ import time
 import utime
 
 # RP Pico 2 pins for Waveshare SX1262 LoRaWAN module
-CLK = 'GPIO10'
-MOSI = 'GPIO11'
-MISO = 'GPIO12'
-CS = const(3)
-DIO1 = const(20)
-BUSY = const(2)
-RESET = const(15)
+CLK = 10
+MOSI = 11 
+MISO = 12 
+CS = 3 
+DIO1 = 20 
+BUSY = 2 
+RESET = 15 
 
 boardID = machine.unique_id()
 
