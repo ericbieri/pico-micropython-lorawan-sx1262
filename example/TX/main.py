@@ -11,7 +11,6 @@ DIO1 = const(20)
 BUSY = const(2)
 RESET = const(15)
 
-print("- main-13-class -")
 sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=CLK,mosi=MOSI,miso=MISO)
 
 print("- main-13-class-done -")

@@ -3,54 +3,31 @@ from radio.sx1262 import SX1262
 import time
 import utime
 
-# try:
-#     # ESP8266 board
-#     import esp
-#     boardName = "esp8266"
-# except:
-#     if ('rp2' in locals()):
-#         # rpp board
-#         boardName = "rp2"
-#     else:
-#         boardName = "unknown"
-
-# if (boardName == "esp8266"):
-#     # MOSI = const(13)
-#     # MISO = const(12)
-#     # SCLK = const(14)
-#     CS = (0)    # 0, 2, (4, 5), 15, 16
-#     DIO1 = (16)
-#     BUSY = (15)
-#     RESET = (2)
-# elif (boardName == "rp2"):
-#     # MOSI = const(7)
-#     # MISO = const(4)
-#     # SCLK = const(6)
-#     CS = (5)
-#     DIO1 = (10)
-#     BUSY = (14)
-#     RESET = (15)
-#     # LED_PIN = const(25)
-#     # led = machine.Pin(LED_PIN, machine.Pin.OUT)
-
+# Pico 2 pins for Waveshare SX1262 LoRaWAN module
 CS = const(3)
 DIO1 = const(20)
 BUSY = const(2)
 RESET = const(15)
+
+MOSI = '11'
+MISO = '12'
+SCLK = '10'
+
 boardID = machine.unique_id()
 
 
 
 ################################################################################
 
-print("This is the ", boardName, "board.")
+# print("This is the ", boardName, "board.")
 print("Unique board ID: ")
 for i in boardID:
     print(hex(i), " ", end='')
 print(" ")
 
 print("Initializing SX1262 radio module")
-sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY)
+sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=SCLK,mosi=MOSI,miso=MISO)
+
 
 # LoRa
 # freq = 867.1, 867.3, 867.5, 867.7, 867.9, 868.1, (868.3), 868.5
@@ -63,7 +40,7 @@ sx.begin(freq=868.3, bw=250.0, sf=7, cr=8, syncWord=0x12,
          power=5, currentLimit=60.0, preambleLength=8,
          implicit=False, implicitLen=0xFF,
          crcOn=True, txIq=False, rxIq=False,
-         tcxoVoltage=0.0, useRegulatorLDO=True, blocking=True)
+         tcxoVoltage=1.7, useRegulatorLDO=True, blocking=True)
 
 # FSK
 ##sx.beginFSK(freq=923, br=48.0, freqDev=50.0, rxBw=156.2, power=-5, currentLimit=60.0,
