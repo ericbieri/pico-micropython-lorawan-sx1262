@@ -603,7 +603,6 @@ class SX126X:
         return self.setModulationParams(self._sf, self._bw, self._cr)
 
     def setSpreadingFactor(self, sf):
-        print("SF PacketType:", self.getPacketType())
         if self.getPacketType() != SX126X_PACKET_TYPE_LORA:
             return ERR_WRONG_MODEM
 

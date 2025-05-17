@@ -296,15 +296,12 @@ class LoRaWANHandler:
 
     def sendRAW(self, msg=b'Hello'):
         if (type(msg) == type("")):
-            print("sendRAW-string")
             msg = bytes(msg, 'utf-8')
         elif (type(msg) == type([])):
-            print("sendRAW-byte-array")
             msg = bytes(msg)
         # CAD
         while (self.scan == False):
             pass
-        print("sendRAW - msg", msg)
         self.SXRadio.send(msg)
 
 
