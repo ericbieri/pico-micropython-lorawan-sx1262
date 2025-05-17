@@ -37,14 +37,13 @@ if implementation.name == 'circuitpython':
 
 class SX126X:
 
-    def __init__(self, cs, irq, rst, gpio, clk='6', mosi='7', miso='4'):
+    def __init__(self, cs, irq, rst, gpio, clk='10', mosi='11', miso='12'):
         self._irq = irq
-        if implementation.name == 'micropython':
-          #try:
-          # self.spi = SPI(0, mode=SPI.MASTER, baudrate=2000000, pins=(clk, mosi, miso))  # Pycom variant uPy
-          self.spi = SPI(0, baudrate=1000000, polarity=0, phase=0, bits=8, firstbit=SPI.MSB)  # RP2 variant uPy - Hardware SPI
-          #except:
-          # self.spi = SPI(0, baudrate=2000000, pins=(clk, mosi, miso))                   # Generic variant uPy
+        if implementation.name == 'micropython': 
+          
+          # initialise SPI for SX126x
+          self.spi = SPI(1, baudrate=1000000, polarity=0, phase=0, bits=8, sck=Pin(clk), mosi=Pin(mosi), miso=Pin(miso))
+
           self.cs = Pin(cs, mode=Pin.OUT)
           self.irq = Pin(irq, mode=Pin.IN)
           self.rst = Pin(rst, mode=Pin.OUT)
@@ -111,49 +110,49 @@ class SX126X:
         self._rxIq = rxIq
         self._invertIQ = SX126X_LORA_IQ_STANDARD
 
-#        print("\nbegin\n-----")
+        print("\nbegin\n-----")
 
-#        print("Reset module")
+        print("Reset module")
         state = self.reset()
         ASSERT(state)
 
-#        print("Standby")
+        print("Standby")
         state = self.standby()
         ASSERT(state)
 
-#        print("Config as Lora")
+        print("Config as Lora")
         state = self.config(SX126X_PACKET_TYPE_LORA)
         ASSERT(state)
 
 #        print(self.getPacketType(), "should be ", SX126X_PACKET_TYPE_LORA)
 #        print("GFSK packet code is: ", SX126X_PACKET_TYPE_GFSK)
 
-#        print("Set TCXO")
-        if tcxoVoltage > 0.0:
+        print("Set TCXO")
+        if tcxoVoltage > 0:
             state = self.setTCXO(tcxoVoltage)
             ASSERT(state)
 
-#        print("Set SF")
+        print("Set SF")
         state = self.setSpreadingFactor(sf)
         ASSERT(state)
 
-#        print("Set BW")
+        print("Set BW")
         state = self.setBandwidth(bw)
         ASSERT(state)
 
-#        print("Set CR")
+        print("Set CR")
         state = self.setCodingRate(cr)
         ASSERT(state)
 
-#        print("Set syncWord")
+        print("Set syncWord")
         state = self.setSyncWord(syncWord)
         ASSERT(state)
 
-#        print("Set currentLimit")
+        print("Set currentLimit")
         state = self.setCurrentLimit(currentLimit)
         ASSERT(state)
 
-#        print("Set Preamble length")
+        print("Set Preamble length")
         state = self.setPreambleLength(preambleLength)
         ASSERT(state)
 
@@ -166,7 +165,7 @@ class SX126X:
         else:
             state = self.setRegulatorDCDC()
 
-#        print("\nbegin finished\n--------------\n")
+        print("\nbegin finished\n--------------\n")
 
         return state
 
@@ -604,6 +603,7 @@ class SX126X:
         return self.setModulationParams(self._sf, self._bw, self._cr)
 
     def setSpreadingFactor(self, sf):
+        print("SF PacketType:", self.getPacketType())
         if self.getPacketType() != SX126X_PACKET_TYPE_LORA:
             return ERR_WRONG_MODEM
 

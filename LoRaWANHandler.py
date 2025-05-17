@@ -3,37 +3,18 @@ from radio.sx1262 import *
 import time
 import utime
 import random
-# from utime import sleep_ms, sleep_us, ticks_ms, ticks_us, ticks_diff
-#from uarray import array
 
 import LoRaWAN
 from LoRaWAN.MHDR import MHDR
 
-# SPI lines are unneccesary in hardware SPI mode
-# MOSI = const(7)
-# MISO = const(4)
-# SCLK = const(6)
-
-# rpp
-# CS = const(5)
-# DIO1 = const(10)
-# BUSY = const(14)
-# RESET = const(15)
-
-# RP Pico 2
+# RP Pico 2 pins for Waveshare SX1262 LoRaWAN module
+CLK = 'GPIO10'
+MOSI = 'GPIO11'
+MISO = 'GPIO12'
 CS = const(3)
 DIO1 = const(20)
 BUSY = const(2)
 RESET = const(15)
-
-# ESP8266
-#CS = const(0)
-#DIO1 = const(16)
-#BUSY = const(15)
-#RESET = const(2)
-
-#LED_PIN = const(25)
-#led = machine.Pin(LED_PIN, machine.Pin.OUT)
 
 def printHEX(msg):
     for m in msg:
@@ -182,9 +163,6 @@ class LoRaWANHandler:
     #        if (error != ERR_NONE):
     #            print(error)
 
-
-
-
     def __init__(self, configuration):
         self.DevAddrABP = configuration.DevAddrABP
         self.NwkSKeyABP = configuration.NwkSKeyABP
@@ -194,7 +172,7 @@ class LoRaWANHandler:
         self.AppKey = configuration.AppKey
 
         print("Initializing SX1262 radio module")
-        self.SXRadio = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY)
+        self.SXRadio = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=CLK,mosi=MOSI,miso=MISO)
 
         # LoRa
         # freq = 867.1, 867.3, 867.5, 867.7, 867.9, 868.1, (868.3), 868.5
@@ -212,7 +190,7 @@ class LoRaWANHandler:
                 power=self.TXPowerTable[self.currentPower], currentLimit=60.0,
                 preambleLength=8, implicit=False, implicitLen=0xFF,
                 crcOn=True, txIq=False, rxIq=True,
-                tcxoVoltage=0.0, useRegulatorLDO=True, blocking=True)
+                tcxoVoltage=1.7, useRegulatorLDO=True, blocking=True)
 
         # self.SXRadio.setBlockingCallback(False, TXcb)
         self.SXRadio.setBlockingCallback(False, self.RXcb)
@@ -318,12 +296,15 @@ class LoRaWANHandler:
 
     def sendRAW(self, msg=b'Hello'):
         if (type(msg) == type("")):
+            print("sendRAW-string")
             msg = bytes(msg, 'utf-8')
         elif (type(msg) == type([])):
+            print("sendRAW-byte-array")
             msg = bytes(msg)
         # CAD
         while (self.scan == False):
             pass
+        print("sendRAW - msg", msg)
         self.SXRadio.send(msg)
 
 
@@ -673,7 +654,7 @@ class LoRaWANHandler:
                     print("\t\tDEVSTATUS", end='')
                     idx += 1
                     batt = 0
-                    snr = self.SXRadio.getSNR()
+                    snr = int(self.SXRadio.getSNR())
                     print("SNR:", snr)
                     CommandAnsList += bytes([self.DEVSTATUS, batt, (snr >> 2)])
                 elif (CommandReqList[idx] == self.NEWCHANNEL):  # TODO
@@ -962,7 +943,6 @@ def ABPtest():
 if (locals()['__name__'] == '__main__'):
     test()
     ABPtest()
-
 
 #import LoRaWANHandler
 #lh = LoRaWANHandler.LoRaWANHandler()

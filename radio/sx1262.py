@@ -3,7 +3,7 @@ from radio.sx126x import SX126X
 
 _SX126X_PA_CONFIG_SX1262 = const(0x00)
 
-class SX1262(SX126X):
+class SX1262(SX126X): 
     TX_DONE = SX126X_IRQ_TX_DONE
     RX_DONE = SX126X_IRQ_RX_DONE
     ADDR_FILT_OFF = SX126X_GFSK_ADDRESS_FILT_OFF
@@ -16,46 +16,47 @@ class SX1262(SX126X):
     PREAMBLE_DETECT_32 = SX126X_GFSK_PREAMBLE_DETECT_32
     STATUS = ERROR
 
-    def __init__(self, cs, irq, rst, gpio, clk='P6', mosi='P7', miso='P4'):
+    def __init__(self, cs, irq, rst, gpio, clk='10', mosi='11', miso='12'):
+        print("sx1262 pins - cs: ", cs, "irq: ", irq, "rst: ", rst, "gpio: ", gpio, "clk: ", clk, "mosi: ", mosi, "miso: ", miso)
         super().__init__(cs, irq, rst, gpio, clk, mosi, miso)
         self._callbackFunction = self._dummyFunction
 
     def begin(self, freq=868.3, bw=250.0, sf=7, cr=5, syncWord=SX126X_SYNC_WORD_PRIVATE,
               power=14, currentLimit=60.0, preambleLength=8, implicit=False, implicitLen=0xFF,
-              crcOn=True, txIq=False, rxIq=False, tcxoVoltage=1.6, useRegulatorLDO=False,
+              crcOn=True, txIq=False, rxIq=False, tcxoVoltage=1.7, useRegulatorLDO=False,
               blocking=True):
         state = super().begin(bw, sf, cr, syncWord, currentLimit, preambleLength, tcxoVoltage, useRegulatorLDO, txIq, rxIq)
         ASSERT(state)
 
-#        print("\nSX1262 begin finished\n---------------------\n")
+        print("\nSX1262 begin finished\n---------------------\n")
 
         if not implicit:
-#            print("Set explicit header")
+            print("Set explicit header")
             state = super().explicitHeader()
         else:
-#            print("Set implicit header")
+            print("Set implicit header")
             state = super().implicitHeader(implicitLen)
         ASSERT(state)
 
-#        print("Set CRC")
+        print("Set CRC")
         state = super().setCRC(crcOn)
         ASSERT(state)
 
-#        print("Set frequency")
+        print("Set frequency")
         state = self.setFrequency(freq)
         ASSERT(state)
 
-#        print("Set output power")
+        print("Set output power")
         state = self.setOutputPower(power)
         ASSERT(state)
 
-#        print("Fix PA Clamping")
+        print("Fix PA Clamping")
         state = super().fixPaClamping()
         ASSERT(state)
 
         state = self.setBlockingCallback(blocking)
 
-#        print("\nSX1262 begin finished\n---------------------\n")
+        print("\nSX1262 begin finished\n---------------------\n")
 
         return state
 

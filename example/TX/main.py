@@ -1,10 +1,22 @@
-from sx1262 import SX1262
+from radio.sx1262 import SX1262
 import time
+from machine import Pin
 
-sx = SX1262(cs='P5',irq='P6',rst='P7',gpio='P8')
+# RP Pico 2
+CLK = 'GPIO10'
+MOSI = 'GPIO11'
+MISO = 'GPIO12'
+CS = const(3)
+DIO1 = const(20)
+BUSY = const(2)
+RESET = const(15)
 
+print("- main-13-class -")
+sx = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=CLK,mosi=MOSI,miso=MISO)
+
+print("- main-13-class-done -")
 # LoRa
-sx.begin(freq=923, bw=500.0, sf=12, cr=8, syncWord=0x12,
+sx.begin(freq=868, bw=250.0, sf=12, cr=8, syncWord=0x12,
          power=-5, currentLimit=60.0, preambleLength=8,
          implicit=False, implicitLen=0xFF,
          crcOn=True, txIq=False, rxIq=False,
@@ -19,6 +31,10 @@ sx.begin(freq=923, bw=500.0, sf=12, cr=8, syncWord=0x12,
 ##            tcxoVoltage=1.6, useRegulatorLDO=False,
 ##            blocking=True)
 
+pin = Pin("LED", Pin.OUT)
 while True:
+    pin.toggle()
     sx.send(b'Hello World!')
-    time.sleep(10)
+    time.sleep(3)
+
+

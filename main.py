@@ -1,39 +1,50 @@
-
-
-import utime
-import machine
-# from utime import sleep_ms, sleep_us, ticks_ms, ticks_us, ticks_diff
-# import SCC
+from utime import sleep_ms
+from machine import Pin
 from LoRaWANHandler import LoRaWANHandler
 from LoRaWANHandler import getBoardID
 from LoRaConfig import LoRaConfig
 
-def blink(count, delay):
-    for ind in range(count):
-        led.on()
-        utime.sleep_ms(delay // 2)
-        led.off()
-        utime.sleep_ms(delay // 2)
+def blink(duration=100):
+    led.on
+    sleep_ms(duration)
+    led.off()
 
-print("This is the LoRa temperature and humidity measurement application.")
+print("LoRaWAN TTN Test")
+
 getBoardID()
 
+counter =  250
+led = Pin("LED", Pin.OUT)
 
-LED_PIN = const(25)
-led = machine.Pin(LED_PIN, machine.Pin.OUT)
-
+# Initialise LoRaWAN
 lh = LoRaWANHandler(LoRaConfig)
-blink(3, 1000)
+blink()
+
+# Connect to TTN 
 lh.otaa()
-blink(3, 1000)
-# i2c = SCC.initSCC()
-utime.sleep_ms(5000)
+blink()
 
 while(True):
-    # meas = SCC.measurementSCC(i2c)
-    msg = "BABE"
-    print(msg)
-    lh.send(msg, False)
-    blink(2, 2000)
-    utime.sleep_ms(30000)
+    # count up to 65535 and then reset (16 bit counter)
+    counter += 1
+    if counter > 255: 
+        counter = 0
 
+    print("Counter: " + str(counter))
+
+    # Convert counter to byte array and then to string. This is a workaround for the fact that the 
+    # LoRaWANHandler.send() method only accepts strings and not byte arrays
+    cnt_arr = bytearray(counter.to_bytes(1, 'little'))
+    msg = str(cnt_arr[0])
+
+    # Print the message to be sent    
+    print(msg)
+
+    # Send the message to TTN (unconfirmed)
+    lh.send(msg, False)
+
+    # blink the LED to indicate that the message was sent
+    blink(500)
+
+    # Wait for 10 seconds before sending the next message
+    sleep_ms(10000)
