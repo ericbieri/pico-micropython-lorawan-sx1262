@@ -17,7 +17,7 @@ class SX1262(SX126X):
     STATUS = ERROR
 
     def __init__(self, cs, irq, rst, gpio, clk='10', mosi='11', miso='12'):
-        print("SX1262 pins - cs:" + str(cs) + ",irq:" + str(irq) + ",rst:" + str(rst) + ",gpio:" + str(gpio) + ",clk:" + str(clk) + ",mosi:" + str(mosi) + ",miso:" + str(miso))
+        #print("Pins - cs:" + str(cs) + ",irq:" + str(irq) + ",rst:" + str(rst) + ",gpio:" + str(gpio) + ",clk:" + str(clk) + ",mosi:" + str(mosi) + ",miso:" + str(miso))
 
         super().__init__(cs, irq, rst, gpio, clk, mosi, miso)
         self._callbackFunction = self._dummyFunction
@@ -26,10 +26,9 @@ class SX1262(SX126X):
               power=14, currentLimit=60.0, preambleLength=8, implicit=False, implicitLen=0xFF,
               crcOn=True, txIq=False, rxIq=False, tcxoVoltage=1.7, useRegulatorLDO=False,
               blocking=True):
+        
         state = super().begin(bw, sf, cr, syncWord, currentLimit, preambleLength, tcxoVoltage, useRegulatorLDO, txIq, rxIq)
         ASSERT(state)
-
-        print("\nSX1262 begin\n----------------------")
 
         if not implicit:
             print("Set explicit header")
@@ -56,8 +55,6 @@ class SX1262(SX126X):
         ASSERT(state)
 
         state = self.setBlockingCallback(blocking)
-
-        print("\nSX1262 begin finished\n----------------------\n")
 
         return state
 

@@ -1,0 +1,97 @@
+--- LoRaWAN TTN Test ---
+
+Unique board ID: de04ae505179dd3a 
+
+Initializing SX1262 radio module
+-------------------------------
+Reset module
+Standby
+Config as Lora
+Set TCXO
+Set SF
+Set BW
+Set CRC
+Set syncWord
+Set currentLimit
+Set Preamble length
+Set explicit header
+Set CRC
+Set frequency
+Set output power
+Fix PA Clamping
+-------------------------------
+LoRa module has been initialized.
+
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+
+Counter: 1
+
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+Sending Join request:Done
+RX1 Timeout!
+RX2 Timeout!
+Sending Join request:Done
+Message received in RX1:Join-AcceptMIC: Valid
+OTAA activation successful!
+Queue length: 1
+[(2, 0, [49])]
+FCntUp: 0  FCntDown: -1
+Highest priority is: 2  at index: 0
+Sending unconfirmed data
+Current FCntUp: 0
+FrameCount: 0 NbTrans: 1
+TxDone on 868.5 Hz, DR: 0
+RX1 Timeout!
+RX2 Timeout!
+
+Counter: 2
+
+Queue length: 1
+[(2, 0, [50])]
+FCntUp: 1  FCntDown: -1
+Highest priority is: 2  at index: 0
+Sending unconfirmed data
+Current FCntUp: 1
+FrameCount: 0 NbTrans: 1
+TxDone on 867.3 Hz, DR: 0
+Message received in RX1 window: DR: 0 at 1095848 Valid
+Processing frame: Unconfirmed Data down
+
+Processing MAC Commands
+                LINKADR: currentDR:  5 currentPower:  0
+Queue length: 1
+[(0, 0, [3, 7])]
+FCntUp: 2  FCntDown: 1
+Highest priority is: 0  at index: 0
+FrameCount: 0 NbTrans: 1
+TxDone on 868.3 Hz, DR: 5
+RX1 Timeout!
+RX2 Timeout!
+
+Counter: 3
+
+Queue length: 1
+[(2, 0, [51])]
+FCntUp: 3  FCntDown: 1
+Highest priority is: 2  at index: 0
+Sending unconfirmed data
+Current FCntUp: 3
+FrameCount: 0 NbTrans: 1
+TxDone on 868.1 Hz, DR: 0
+RX1 Timeout!
+RX2 Timeout!
+
+...

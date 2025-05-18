@@ -1,3 +1,7 @@
+# Updated Code for Raspberry Pi Pico 2
+Adapted code for RP Pico 2 and [Waveshare LoRaWAN module](https://www.waveshare.com/wiki/Pico-LoRa-SX1262)
+
+
 # LoRaWAN
 Possibly complete LoRaWAN implementation in micropython with SX1262
 

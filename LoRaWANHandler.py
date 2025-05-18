@@ -31,7 +31,7 @@ def printHEX(msg):
 # e6 60 58 38 83 9d 88 34
 def getBoardID():
     boardID = machine.unique_id()
-    print("Unique board ID: ")
+    print("Unique board ID: ", end='')
     printHEX(boardID)
     print(" ")
 
@@ -171,7 +171,7 @@ class LoRaWANHandler:
         self.JoinEUI = configuration.JoinEUI
         self.AppKey = configuration.AppKey
 
-        print("Initializing SX1262 radio module")
+        print("\nInitializing SX1262 radio module\n-------------------------------")
         self.SXRadio = SX1262(cs=CS,irq=DIO1,rst=RESET,gpio=BUSY,clk=CLK,mosi=MOSI,miso=MISO)
 
         # LoRa
@@ -195,9 +195,8 @@ class LoRaWANHandler:
         # self.SXRadio.setBlockingCallback(False, TXcb)
         self.SXRadio.setBlockingCallback(False, self.RXcb)
 
-        print ("LoRa module has been initialized.")
-
-
+        print("-------------------------------")
+        print ("LoRa module has been initialized.\n")
 
     def randomNumber(self, separate = False):
         randBuf = bytearray(4)

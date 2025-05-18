@@ -110,8 +110,6 @@ class SX126X:
         self._rxIq = rxIq
         self._invertIQ = SX126X_LORA_IQ_STANDARD
 
-        print("\nSX126x begin\n----------------------")
-
         print("Reset module")
         state = self.reset()
         ASSERT(state)
@@ -164,8 +162,6 @@ class SX126X:
             state = self.setRegulatorLDO()
         else:
             state = self.setRegulatorDCDC()
-
-        print("\nSX126x begin finished\n----------------------\n")
 
         return state
 
